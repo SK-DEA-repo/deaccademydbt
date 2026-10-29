@@ -26,7 +26,9 @@ models:
                 values: ['1', '2', '3', '4', '5']
                 config:
                   severity: warn
-
+      - name: emp_salary # column name
+        data_tests:
+          - salary_check # this is the test "salary_check" we listed in the generic test
 
 sources:
   - name: employee # this is the model name still from above

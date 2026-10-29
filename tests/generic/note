@@ -1,0 +1,20 @@
+
+--the reason this test file is in a SQL file and located underneath the "test" model is that, dbt recommends that if you are to create a custom test, 
+---it should be listed within the test model, and make sure to also live in a folder called generic. 
+
+----how to write a custom generic test
+
+-- {% test salary_check(model,column_name) %} ---this means the "test" will be to check the salary column of a model. This is the staring of the test block
+
+-- ---custom script in butween the blocks. You want to test for example that none of the salary within this column should be less than 10,000
+-- --with this, we need to write a negetive sql query
+-- select * from 
+-- {{ model }} -- the model name. on the flag, it will take the model name and column name where you will configure this test case.
+-- where {{ column_name }} < 10000 --column name and condition. Any column within that column_name will have your data quality checked. If less than 10,000, your test will fail.  
+
+-- {% endtest %} ---end of the test block
+
+---we will then configure this custom test on the generic test yaml file for the employee model. 
+
+Basically, "where {{ column_name }} < 10000" this means if any salary enter into this column is less than 10000, your test will fail. 
+That is the negative way of saying all salary within the column should be more than 10000. 
