@@ -1,0 +1,133 @@
+
+# the reason for test is to make sure that whatever data is going to the data warehouse is tested to make sure whatever data the business is consuming is a good data, and 
+# if there is an issue with the data, we can inform the business that hi there is an issue with the datat and that we are working on that. 
+
+#once you execute dbt build --employee, dbt will first execute the model "employee" and the any test cases within that folder where the employee is located. 
+# the generic test cases that dbt provid are: unique, nit_null, accepted_values, and relationships. If we need to create other tests that are not apart of the dbt generic 
+# test, we need to create a custom test for that. 
+#make sure to commit the change so that the changes are syned to your future branch so you can't lose them. 
+version: 2  # always specify the version
+
+# dbt test will execute all the test cases within the model folder.
+# dbt test --select specific model. example dbt test --select employee
+
+# if you fix the issue but still leave the 'worning' sign there, the test will pass without a warnig. 
+
+models:
+  - name: employee # model name
+    description: 'empoyee dbt model'
+    columns:
+      - name: emp_id
+        data_tests:
+          - unique
+          - not_null
+          - accepted_values:
+              arguments: 
+                values: ['1', '2', '3', '4', '5']
+                config:
+                  severity: warn
+
+
+sources:
+  - name: employee # this is the model name still from above
+    database: DBT_DB
+    schema: PUBLIC
+    tables: 
+      - name: EMPLOYEE_RAW
+
+
+
+ 
+#to pass the test, we will need a severity value which will show like a warning. You are saying that hey there is a data issue but it is not really an issue
+#under argument, we can pass that underneath 'config' and 'severity: warn' as the value
+
+# models:
+#   - name: employee # model name
+#     description: 'empoyee dbt model'
+#     columns:
+#       - name: emp_id
+#         data_tests:
+#           - unique
+#           - not_null
+#           - accepted_values:
+#               arguments: 
+#                 values: ['1', '2', '3', '4']
+#                 config:
+#                   severity: warn
+
+
+# sources:
+#   - name: employee # this is the model name still from above
+#     database: DBT_DB
+#     schema: PUBLIC
+#     tables: 
+#       - name: EMPLOYEE_RAW
+
+
+
+
+  #checking the accepted_values from 1 to 4 instead of 5 to see wat will happen. 
+# the test failed because the id column values run from 1 to 5, not 4.           
+# models:
+#   - name: employee # model name
+#     description: 'empoyee dbt model'
+#     columns:
+#       - name: emp_id
+#         data_tests:
+#           - unique
+#           - not_null
+#           - accepted_values:
+#               arguments: 
+#                 values: ['1', '2', '3', '4']
+
+# sources:
+#   - name: employee # this is the model name still from above
+#     database: DBT_DB
+#     schema: PUBLIC
+#     tables: 
+#       - name: EMPLOYEE_RAW
+
+
+
+
+# models:
+#   - name: employee # model name
+#     description: 'empoyee dbt model'
+#     columns:
+#       - name: emp_id
+#         data_tests:
+#           - unique
+#           - not_null
+#           - accepted_values:
+#               arguments: 
+#                 values: ['1', '2', '3', '4', '5']
+
+# sources:
+#   - name: employee # this is the model name still from above
+#     database: DBT_DB
+#     schema: PUBLIC
+#     tables: 
+#       - name: EMPLOYEE_RAW
+
+
+# version: 2
+
+# models:
+#   - name: employee
+#     description: "Employee DBT model"
+#     columns:
+#       - name: emp_id
+#         data_tests:
+#           - unique
+#           - not_null
+#           - accepted_values:
+#               arguments:
+#                 values: ['1','2','3','4','5']
+#                 config:
+#                   severity: warn
+# sources:
+#   - name: employee
+#     database: DBT_DB
+#     schema: PUBLIC
+#     tables:
+#       - name: EMPLOYEE_RAW
