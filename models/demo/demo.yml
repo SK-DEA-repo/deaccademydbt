@@ -8,34 +8,79 @@
 #make sure to commit the change so that the changes are syned to your future branch so you can't lose them. 
 version: 2  # always specify the version
 
+
 # dbt test will execute all the test cases within the model folder.
 # dbt test --select specific model. example dbt test --select employee
 
-# if you fix the issue but still leave the 'worning' sign there, the test will pass without a warnig. 
+
 
 models:
-  - name: employee # model name
-    description: 'empoyee dbt model'
+  - name: employee
+    description: "Employee DBT model"
     columns:
       - name: emp_id
         data_tests:
           - unique
           - not_null
           - accepted_values:
-              arguments: 
-                values: ['1', '2', '3', '4', '5']
+              arguments:
+                values: ['1','2','3','4','5']
                 config:
                   severity: warn
-      - name: emp_salary # column name
+      - name: emp_salary
         data_tests:
-          - salary_check # this is the test "salary_check" we listed in the generic test
+          - salary_check
+
+  - name: customer
+    description: "DBT Model for the customer table"   # always provide the decription when a model is added to the test script.
+  - name: customer_vw
+    description: "DBT Model for the customer view" 
+
 
 sources:
-  - name: employee # this is the model name still from above
+  - name: employee
     database: DBT_DB
     schema: PUBLIC
-    tables: 
+    tables:
       - name: EMPLOYEE_RAW
+  - name: customer
+    database: DBT_DB
+    schema: PUBLIC
+    tables:
+      - name: CUSTOMER_SRC
+
+
+
+
+
+
+
+
+# if you fix the issue but still leave the 'worning' sign there, the test will pass without a warnig. 
+
+# models:
+#   - name: employee # model name
+#     description: 'empoyee dbt model'
+#     columns:
+#       - name: emp_id
+#         data_tests:
+#           - unique
+#           - not_null
+#           - accepted_values:
+#               arguments: 
+#                 values: ['1', '2', '3', '4', '5']
+#                 config:
+#                   severity: warn
+#       - name: emp_salary # column name
+#         data_tests:
+#           - salary_check # this is the test "salary_check" we listed in the generic test
+
+# sources:
+#   - name: employee # this is the model name still from above
+#     database: DBT_DB
+#     schema: PUBLIC
+#     tables: 
+#       - name: EMPLOYEE_RAW
 
 
 
