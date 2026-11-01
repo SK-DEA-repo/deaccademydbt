@@ -12,7 +12,8 @@ version: 2  # always specify the version
 # dbt test will execute all the test cases within the model folder.
 # dbt test --select specific model. example dbt test --select employee
 
-#16. Create DBT Model (Materialization - Ephemeral)
+# 17. Create DBT Snapshot
+
 
 models:
   - name: employee
@@ -42,7 +43,7 @@ models:
     description: "DBT model for the purchase table"
   - name: clean_orders
     description: "DBT ephermeral model for the clean order"  
-  - name: final_orders  # this one does not have source created here since it's source is the clean_orders that also reads data from the actual base_orders table
+  - name: final_orders
     description: "DBT model for the finale orders model"
 sources:
   - name: employee
@@ -75,6 +76,83 @@ sources:
     schema: PUBLIC
     tables:
       - name: BASE_ORDERS
+  - name: patient
+    database: DBT_DB
+    schema: PUBLIC
+    tables:
+      - name: PATIENT_SRC
+
+
+
+
+
+
+
+
+
+# #16. Create DBT Model (Materialization - Ephemeral)
+
+# models:
+#   - name: employee
+#     description: "Employee DBT model"
+#     columns:
+#       - name: emp_id
+#         data_tests:
+#           - unique
+#           - not_null
+#           - accepted_values:
+#               arguments:
+#                 values: ['1','2','3','4','5']
+#                 config:
+#                   severity: warn
+#       - name: emp_salary
+#         data_tests:
+#           - salary_check
+#   - name: customer
+#     description: "DBT Model for the customer table"  
+#   - name: customer_vw
+#     description: "DBT Model for the customer view"
+#   - name: sales
+#     description: "DBT model for the sales table"
+#   - name: product
+#     description: "DBT Model for the product table"
+#   - name: purchase
+#     description: "DBT model for the purchase table"
+#   - name: clean_orders
+#     description: "DBT ephermeral model for the clean order"  
+#   - name: final_orders  # this one does not have source created here since it's source is the clean_orders that also reads data from the actual base_orders table
+#     description: "DBT model for the finale orders model"
+# sources:
+#   - name: employee
+#     database: DBT_DB
+#     schema: PUBLIC
+#     tables:
+#       - name: EMPLOYEE_RAW
+#   - name: customer
+#     database: DBT_DB
+#     schema: PUBLIC
+#     tables:
+#       - name: CUSTOMER_SRC
+#   - name: sales
+#     database: DBT_DB
+#     schema: PUBLIC
+#     tables:
+#       - name: SALES_SRC
+#   - name: product
+#     database: DBT_DB
+#     schema: PUBLIC
+#     tables:
+#       - name: PRODUCT_SRC
+#   - name: purchase
+#     database: DBT_DB
+#     schema: PUBLIC
+#     tables:
+#       - name: PURCHASE_SRC
+#   - name: orders
+#     database: DBT_DB
+#     schema: PUBLIC
+#     tables:
+#       - name: BASE_ORDERS
 
 
 
